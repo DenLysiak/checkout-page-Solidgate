@@ -1,0 +1,35 @@
+.order-title {
+  margin-bottom: 20px;
+  text-align: center;
+
+  @include on-desktop {
+    text-align: left;
+  }
+
+
+  &__h1 {
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    
+    @include on-desktop {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 40px;
+  }
+  }
+
+  &__h2 {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+
+    @include on-desktop {
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 32px;
+      margin: 0;
+    }
+  }
+}

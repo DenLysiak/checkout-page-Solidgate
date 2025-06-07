@@ -1,0 +1,21 @@
+.apple-pay {
+
+  &__button {
+    background-color: $black-main;
+    color: $primary-background;
+    height: 48px;
+    border-radius: $primary-border-radius;
+    width: 100%;
+    margin-bottom: 30px;
+    background-image:url('/icons/applePayLogo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 48px 20px;
+    transition: $transition-duration all;
+    
+    &:hover {
+      cursor: pointer;
+      background-size: 60px 40px;
+    }
+  }
+}

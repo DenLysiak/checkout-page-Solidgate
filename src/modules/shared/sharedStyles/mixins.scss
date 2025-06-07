@@ -1,0 +1,33 @@
+@mixin on-tablet {
+  @media (min-width: $tablet-min-width) {
+    @content;
+  }
+}
+
+@mixin on-desktop {
+  @media (min-width: $desktop-min-width) {
+    @content;
+  }
+}
+
+@mixin on-desktop-plus {
+  @media (min-width: $desktopPlus-min-width) {
+    @content;
+  }
+}
+
+@mixin content-padding-inline() {
+  padding-inline: 16px;
+
+  // @include on-tablet {
+  //   padding-inline: 290px;
+  // }
+
+  @include on-desktop {
+    padding-inline: 30px;
+  }
+
+  // @include on-desktop-plus {
+  //   padding-inline: 360px;
+  // }
+}

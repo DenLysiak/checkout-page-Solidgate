@@ -1,3 +1,18 @@
-.starter {
-  font-size: 18px;
+.app {
+  @include content-padding-inline;
+
+  margin-top: 30px;
+
+  &__container {
+    display: flex;
+    margin-bottom: 40px;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+
+    @include on-desktop {
+      flex-direction: row;
+    }
+  }
 }

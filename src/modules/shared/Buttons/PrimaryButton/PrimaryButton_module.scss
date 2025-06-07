@@ -1,0 +1,25 @@
+.primary-button {
+  width: 100%;
+  background-color: $primary-green;
+  border-radius: $primary-border-radius;
+  color: $primary-background;
+  border: none;
+  margin-bottom: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  padding: 12px 16px;
+  transition: all $transition-duration ease-in-out;
+
+  @include on-desktop {
+    &:hover {
+      background-color: $secondary-green;
+      cursor: pointer;
+    }
+
+    &:focus {
+      background-color: $action-green;
+    }
+  }
+}

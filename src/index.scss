@@ -1,13 +1,13 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+@import './modules/shared/sharedStyles/fonts';
+@import './modules/shared/sharedStyles/vars';
+@import './modules/shared/sharedStyles/mixins';
+@import './modules/shared/sharedStyles/normalize';
+@import './App';
+@import './modules/OrderInfo/OrderInfo_module';
+@import './modules/shared/OrderTitle/OrderTitle_module';
+@import './modules/footer/Footer_module';
+@import './modules/shared/noteMessage/NoteMessage_module';
+@import './modules/shared/Buttons/ApplePayButton/ApplePayButton_module';
+@import './modules/checkout/Checkout_module';
+@import './modules/shared/PaymentForm/PaymentForm_module';
+@import './modules//shared/Buttons/PrimaryButton/PrimaryButton_module';

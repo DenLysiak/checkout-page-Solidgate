@@ -1,0 +1,26 @@
+.checkout {
+  max-width: 420px;
+  width: 100%;
+
+  &__divider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 20px;
+    color: $text-secondary;
+  }
+
+  &__divider-line {
+    width: 100%;
+    height: 1px;
+    background-color: $elements-secondary;
+  }
+
+  &__divider-text {
+    width: -webkit-fill-available;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    margin: 0;
+  }
+}
