@@ -1,6 +1,6 @@
 # React TypeScript Checkout Page — Solidgate Integration Demo
 
-- [DemoLink](https://denlysiak.github.io/checkout-page-Solidgate/)
+- [DEMO LINK](https://denlysiak.github.io/checkout-page-Solidgate/)
 
 PLEASE NOTE THAT 'CARD NUMBER' USES LUHN ALGORITHM TO CHECK FOR VALID NUMBER; USE '0000 0000 0000 000' TO CHECK WITH POSITIVE VALIDATION.
 
