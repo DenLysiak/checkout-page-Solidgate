@@ -3,6 +3,8 @@ import React from 'react';
 import { Footer } from './modules/footer/Footer';
 import { OrderInfo } from './modules/OrderInfo/OrderInfo';
 import { Checkout } from './modules/checkout/Checkout';
+import { LanguageSelector } from './modules/shared/LanguageSelector/LanguageSelector';
+import { LanguageView } from './modules/shared/types';
 
 const mockOrderData = {
   productName: 'Pro Plan',
@@ -32,6 +34,8 @@ const mockProductName = mockOrderData.productName;
 export const App: React.FC = () => {
   return (
     <div className="app">
+      <LanguageSelector view={LanguageView.Desktop} />
+
       <div className="app__container">
         <Checkout titleData={mockOderTitleData} productName={mockProductName} />
 

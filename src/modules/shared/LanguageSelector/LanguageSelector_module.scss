@@ -1,0 +1,43 @@
+.lang-selector {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  max-width: 870px;
+  align-self: center;
+  width: 100%;
+  margin-bottom: 10px;
+
+  &--desktop {
+    display: none;
+  }
+
+  @include on-desktop {
+    &--mobile {
+      display: none;
+    }
+
+    &--desktop {
+      display: flex;
+    }
+  }
+
+  &__item {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    color: $text-secondary;
+    transition: all $transition-duration ease-in-out;
+
+    @include on-desktop {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &--active {
+      color: $primary-text;
+    }
+  }
+}

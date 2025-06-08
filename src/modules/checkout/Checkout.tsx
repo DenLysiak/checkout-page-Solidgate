@@ -1,9 +1,11 @@
-// eslint-disable-next-line max-len
+/* eslint-disable max-len */
+import { Breadcrumb } from '../shared/Breadcrumb/Breadcrumb';
 import { ApplePayButton } from '../shared/Buttons/ApplePayButton/ApplePayButton';
+import { LanguageSelector } from '../shared/LanguageSelector/LanguageSelector';
 import { NoteMessage } from '../shared/noteMessage/NoteMessage';
 import { OrderTitle } from '../shared/OrderTitle/OrderTitle';
 import { PaymentForm } from '../shared/PaymentForm/PaymentForm';
-import { OrderTitleItem } from '../shared/types';
+import { LanguageView, OrderTitleItem } from '../shared/types';
 
 interface CheckoutProps {
   titleData: OrderTitleItem;
@@ -16,6 +18,12 @@ export const Checkout: React.FC<CheckoutProps> = ({
 }) => {
   return (
     <div className="checkout">
+      <div className="checkout__top">
+        <Breadcrumb pathName="checkout" />
+
+        <LanguageSelector view={LanguageView.Mobile} />
+      </div>
+
       <OrderTitle orderTitleItem={titleData} />
 
       <ApplePayButton />

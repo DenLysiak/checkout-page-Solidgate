@@ -1,21 +1,18 @@
 import { useState } from 'react';
 import { ButtonType } from '../../types';
 import classNames from 'classnames';
+import { Spinner } from '../../Loader/Spinner/Spinner';
 
 interface PrimaryButtonProps {
   buttonType: ButtonType;
-  initialText: string;
-  processingText: string;
-  successText: string;
-  onClick?: () => void;
+  onClick: () => void;
+  validateData: () => boolean;
 }
 
 export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   buttonType,
   onClick,
-  initialText,
-  processingText,
-  successText,
+  validateData,
 }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -23,6 +20,11 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
+    if (validateData()) {
+      return;
+    }
+
     if (!isProcessing && !isSuccess) {
       setIsProcessing(true);
 
@@ -32,11 +34,12 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 
         setTimeout(() => {
           setIsSuccess(false);
+
           if (onClick) {
             onClick();
           }
-        }, 3000);
-      }, 3000);
+        }, 3500);
+      }, 3500);
     }
   };
 
@@ -48,26 +51,33 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
     setIsMouseDown(false);
   };
 
-  // Using classnames library for conditional classes
   const buttonClasses = classNames('button', {
     processing: isProcessing,
     success: isSuccess,
-    // Apply mouse down specific styles only if not processing or successful
     'is-mouse-down': isMouseDown && !isProcessing && !isSuccess,
   });
 
-  const initialTextClasses = classNames('buttonText', 'buttonText--initial');
-  const processingTextClasses = classNames(
-    'buttonText',
-    'buttonText--processing',
+  const initialTextClasses = classNames(
+    'button__text',
+    'button__text--initial',
   );
-  const successTextClasses = classNames('buttonText', 'buttonText--success');
+  const processingTextClasses = classNames(
+    'button__text',
+    'button__text--processing',
+  );
+  const successTextClasses = classNames(
+    'button__text',
+    'button__text--success',
+  );
+
+  const initialText = 'Pay 99.00 USD';
+  const processText = 'Processing payment';
+  const successText = 'Successful payment!';
 
   return (
     <button
       type={buttonType}
       className={buttonClasses}
-      //className="primary-button"
       onClick={handleClick}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
@@ -75,21 +85,14 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       disabled={isProcessing || isSuccess}
     >
       <span className={initialTextClasses}>{initialText}</span>
-      {/* <span className="primary-button__text primary-button__text--initial">
-        {initialText}
-      </span> */}
 
-      <span className={processingTextClasses}>{processingText}</span>
+      <div className={processingTextClasses}>
+        <Spinner />
 
-      {/* <span className="primary-button__text primary-button__text--process">
-        {processingText}
-      </span> */}
+        {processText}
+      </div>
 
       <span className={successTextClasses}>{successText}</span>
-
-      {/* <span className="primary-button__text primary-button__text--success">
-        {successText}
-      </span> */}
     </button>
   );
 };

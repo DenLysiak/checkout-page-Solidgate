@@ -38,3 +38,13 @@ export enum CardDataKeys {
 export enum SessionStorageCredentials {
   cardData = 'cardData',
 }
+
+export enum LanguageKeys {
+  English = 'EN',
+  Ukrainian = 'UA',
+}
+
+export enum LanguageView {
+  Mobile = 'Mobile',
+  Desktop = 'Desktop',
+}

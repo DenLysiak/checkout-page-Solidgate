@@ -3,34 +3,68 @@ import { ButtonType, CardDataKeys, CardDataType } from '../types';
 
 import { PrimaryButton } from '../Buttons/PrimaryButton/PrimaryButton';
 import { CheckoutContext } from '../../../store/CheckoutStore';
-import { useContext } from 'react';
-import { formatCardNumber, formatCvc, formatExpiry } from './utils';
+import { useContext, useState } from 'react';
+import {
+  formatCardNumber,
+  formatCvc,
+  formatExpiry,
+  resetStringData,
+  validateCvc,
+  validateDate,
+  validateLuhn,
+} from './utils';
+import classNames from 'classnames';
 
 export const PaymentForm: React.FC = () => {
   const { checkoutData, setCheckoutData } = useContext(CheckoutContext);
+  const [isNotValid, setIsNotValid] = useState({
+    num: false,
+    date: false,
+    cvc: false,
+  });
 
-  //console.log(checkoutData);
+  const keyMap: Record<CardDataKeys, keyof typeof isNotValid> = {
+    [CardDataKeys.Cvc]: 'cvc',
+    [CardDataKeys.Num]: 'num',
+    [CardDataKeys.Expiry]: 'date',
+  };
 
   const handleCardChange = (key: CardDataKeys, newValue: string) => {
+    const field = keyMap[key];
+
+    if (field) {
+      setIsNotValid({ ...isNotValid, [field]: false });
+    }
+
     setCheckoutData({ ...checkoutData, [key]: newValue });
   };
 
-  const resetCardData = () => {
-    const resetData: CardDataType = {
-      cardNumber: '',
-      cardExpiry: '',
-      cardCVC: '',
+  const validateCardData = () => {
+    const newValid = {
+      num: !validateLuhn(checkoutData.cardNumber),
+      date: !validateDate(checkoutData.cardExpiry),
+      cvc: !validateCvc(checkoutData.cardCVC),
     };
 
+    setIsNotValid(newValid);
+
+    return Object.values(newValid).some(v => v);
+  };
+
+  const handleSubmit = () => {
+    const resetData = resetStringData<CardDataType>(checkoutData, '');
+    const resetErrors = {
+      num: false,
+      date: false,
+      cvc: false,
+    };
+
+    setIsNotValid(resetErrors);
     setCheckoutData(resetData);
   };
 
-  const initialButtonText = 'Pay 99.00 USD';
-  const processText = 'Processing payment';
-  const successText = 'Successful payment!';
-
   return (
-    <form className="payment-form" onSubmit={e => e.preventDefault()}>
+    <form className="payment-form">
       <div className="payment-form__input-group">
         <label htmlFor="card-num" className="payment-form__label">
           Card Number
@@ -39,15 +73,19 @@ export const PaymentForm: React.FC = () => {
         <input
           id="card-num"
           type="text"
-          className="payment-form__input"
+          className={classNames('payment-form__input', {
+            'payment-form__input--not-valid': isNotValid.num,
+          })}
           placeholder="XXXX XXXX XXXX XXXX"
           autoComplete="cc-number"
-          pattern="[0-9\s]{13,19}"
-          inputMode="numeric"
           maxLength={19}
           required
-          aria-label="Credit or debit card number"
-          aria-required="true"
+          onBlur={() => {
+            setIsNotValid({
+              ...isNotValid,
+              num: !validateLuhn(checkoutData.cardNumber),
+            });
+          }}
           onChange={event =>
             handleCardChange(
               CardDataKeys.Num,
@@ -56,6 +94,10 @@ export const PaymentForm: React.FC = () => {
           }
           value={checkoutData.cardNumber}
         />
+
+        {isNotValid.num && (
+          <span className="payment-form__text-not-valid">Not valid number</span>
+        )}
       </div>
 
       <div className="payment-form__input-bottom">
@@ -67,9 +109,17 @@ export const PaymentForm: React.FC = () => {
           <input
             id="exp-date"
             type="text"
-            className="payment-form__input"
+            className={classNames('payment-form__input', {
+              'payment-form__input--not-valid': isNotValid.date,
+            })}
             placeholder="MM/YY"
             required
+            onBlur={() =>
+              setIsNotValid({
+                ...isNotValid,
+                date: !validateDate(checkoutData.cardExpiry),
+              })
+            }
             onChange={event =>
               handleCardChange(
                 CardDataKeys.Expiry,
@@ -78,6 +128,10 @@ export const PaymentForm: React.FC = () => {
             }
             value={checkoutData.cardExpiry}
           />
+
+          {isNotValid.date && (
+            <span className="payment-form__text-not-valid">Not valid date</span>
+          )}
         </div>
 
         <div className="payment-form__input-group payment-form__input-group--cvc">
@@ -88,17 +142,31 @@ export const PaymentForm: React.FC = () => {
           <input
             id="cvc"
             type="password"
-            className="payment-form__input payment-form__input--cvc"
+            className={classNames(
+              'payment-form__input payment-form__input--cvc',
+              {
+                'payment-form__input--not-valid': isNotValid.cvc,
+              },
+            )}
             placeholder="•••"
-            inputMode="numeric"
             pattern="[0-9]{3}"
             maxLength={3}
             required
             value={checkoutData.cardCVC}
+            onBlur={() =>
+              setIsNotValid({
+                ...isNotValid,
+                cvc: !validateCvc(checkoutData.cardCVC),
+              })
+            }
             onChange={event =>
               handleCardChange(CardDataKeys.Cvc, formatCvc(event.target.value))
             }
           />
+
+          {isNotValid.cvc && (
+            <span className="payment-form__text-not-valid">Not valid CVC</span>
+          )}
 
           <div className="payment-form__tooltip">
             <div className="payment-form__tooltip-container">
@@ -113,11 +181,9 @@ export const PaymentForm: React.FC = () => {
       </div>
 
       <PrimaryButton
-        initialText={initialButtonText}
-        processingText={processText}
-        successText={successText}
+        onClick={handleSubmit}
+        validateData={validateCardData}
         buttonType={ButtonType.submit}
-        onClick={resetCardData}
       />
     </form>
   );

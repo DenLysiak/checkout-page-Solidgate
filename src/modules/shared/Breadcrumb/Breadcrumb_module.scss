@@ -1,0 +1,33 @@
+.breadcrumb {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  transition: all $transition-duration ease-in-out;
+
+  @include on-desktop {
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+  }
+
+  &__arrow {
+    background-image: url('/icons/Arrow.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+
+  }
+
+  &__text {
+    color: $primary-text;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: right;
+    text-transform: capitalize;
+  }
+}

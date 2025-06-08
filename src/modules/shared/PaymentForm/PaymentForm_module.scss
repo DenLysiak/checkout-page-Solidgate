@@ -5,6 +5,7 @@
     flex-direction: column;
     margin-bottom: 10px;
     width: 100%;
+    position: relative;
 
     &--cvc {
       position: relative;
@@ -50,6 +51,10 @@
     &:focus {
       border-color: $primary-green;
     }
+
+    &--not-valid {
+      border-color: $not-valid-red;
+    }
   }
 
   &__tooltip {
@@ -58,7 +63,16 @@
     left: 80%;
   }
 
-    &__tooltip-text {
+  &__text-not-valid {
+    font-size: 10px;
+    line-height: 14px;
+    color: $not-valid-red;
+    position: absolute;
+    right: 1%;
+    top: 10%;
+  }
+
+  &__tooltip-text {
     visibility: hidden;
     opacity: 0;
     position: absolute;
