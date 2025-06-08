@@ -1,11 +1,36 @@
 /* eslint-disable max-len */
-import { ButtonType } from '../types';
+import { ButtonType, CardDataKeys, CardDataType } from '../types';
 
 import { PrimaryButton } from '../Buttons/PrimaryButton/PrimaryButton';
+import { CheckoutContext } from '../../../store/CheckoutStore';
+import { useContext } from 'react';
+import { formatCardNumber, formatCvc, formatExpiry } from './utils';
 
 export const PaymentForm: React.FC = () => {
+  const { checkoutData, setCheckoutData } = useContext(CheckoutContext);
+
+  //console.log(checkoutData);
+
+  const handleCardChange = (key: CardDataKeys, newValue: string) => {
+    setCheckoutData({ ...checkoutData, [key]: newValue });
+  };
+
+  const resetCardData = () => {
+    const resetData: CardDataType = {
+      cardNumber: '',
+      cardExpiry: '',
+      cardCVC: '',
+    };
+
+    setCheckoutData(resetData);
+  };
+
+  const initialButtonText = 'Pay 99.00 USD';
+  const processText = 'Processing payment';
+  const successText = 'Successful payment!';
+
   return (
-    <form className="payment-form">
+    <form className="payment-form" onSubmit={e => e.preventDefault()}>
       <div className="payment-form__input-group">
         <label htmlFor="card-num" className="payment-form__label">
           Card Number
@@ -15,7 +40,7 @@ export const PaymentForm: React.FC = () => {
           id="card-num"
           type="text"
           className="payment-form__input"
-          placeholder="1234 5678 9012 3456"
+          placeholder="XXXX XXXX XXXX XXXX"
           autoComplete="cc-number"
           pattern="[0-9\s]{13,19}"
           inputMode="numeric"
@@ -23,6 +48,13 @@ export const PaymentForm: React.FC = () => {
           required
           aria-label="Credit or debit card number"
           aria-required="true"
+          onChange={event =>
+            handleCardChange(
+              CardDataKeys.Num,
+              formatCardNumber(event.target.value),
+            )
+          }
+          value={checkoutData.cardNumber}
         />
       </div>
 
@@ -38,6 +70,13 @@ export const PaymentForm: React.FC = () => {
             className="payment-form__input"
             placeholder="MM/YY"
             required
+            onChange={event =>
+              handleCardChange(
+                CardDataKeys.Expiry,
+                formatExpiry(event.target.value),
+              )
+            }
+            value={checkoutData.cardExpiry}
           />
         </div>
 
@@ -55,6 +94,10 @@ export const PaymentForm: React.FC = () => {
             pattern="[0-9]{3}"
             maxLength={3}
             required
+            value={checkoutData.cardCVC}
+            onChange={event =>
+              handleCardChange(CardDataKeys.Cvc, formatCvc(event.target.value))
+            }
           />
 
           <div className="payment-form__tooltip">
@@ -69,7 +112,13 @@ export const PaymentForm: React.FC = () => {
         </div>
       </div>
 
-      <PrimaryButton buttonType={ButtonType.submit} />
+      <PrimaryButton
+        initialText={initialButtonText}
+        processingText={processText}
+        successText={successText}
+        buttonType={ButtonType.submit}
+        onClick={resetCardData}
+      />
     </form>
   );
 };

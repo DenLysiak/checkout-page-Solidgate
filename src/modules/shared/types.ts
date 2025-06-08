@@ -22,3 +22,19 @@ export interface OrderTitleItem {
 export enum ButtonType {
   submit = 'submit',
 }
+
+export interface CardDataType {
+  cardNumber: string;
+  cardExpiry: string;
+  cardCVC: string;
+}
+
+export enum CardDataKeys {
+  Num = 'cardNumber',
+  Expiry = 'cardExpiry',
+  Cvc = 'cardCVC',
+}
+
+export enum SessionStorageCredentials {
+  cardData = 'cardData',
+}
