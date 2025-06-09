@@ -68,10 +68,6 @@ export const validateDate = (date: string): boolean => {
     if (year < currentYear - 100) {
       year += 100;
     }
-    // else if (year < currentYear) {
-    //   // e.g., current 2025, user types 24 (for 2024), convert to 2024
-    //   // No adjustment needed, already correct
-    // }
   }
 
   if (month < 1 || month > 12) {
